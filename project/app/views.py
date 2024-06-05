@@ -7,3 +7,10 @@ def home(request):
 
 def shop(request):
     return render(request,'shop.html')
+def about(request):
+    return render(request,'about.html')
+
+def contact(request):
+    return render(request,'contact.html')
+def cart(request):
+    return render(request,'cart.html')
