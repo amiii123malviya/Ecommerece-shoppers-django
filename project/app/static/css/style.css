@@ -751,3 +751,67 @@ a {
   width: 120px;
   border-radius: 50%;
   margin-bottom: 20px; }
+/* add product */
+.container2{
+  width: 100%;
+  max-width:500px;
+  background: lightblue;
+  padding: 28px;
+  margin: 0 28px;
+  border-radius: 10px;
+  box-shadow: inset -2px 2px 2px grey;
+  margin-right: 450px;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  color: #000;
+  margin-left: 500px;
+}
+
+.form-title{
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 6px;
+  color: white;
+  /* text-shadow: 2px 2px 2px black; */
+  border-bottom: solid 1px white;
+}
+
+.main-user-info{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 20px 0;
+  color: #000;
+  margin:auto;
+  margin-top: 30px;
+
+
+}
+.form-submit-btn{
+  /* margin-top: 40px;
+  margin-left: 20px; */
+  margin: auto;
+}
+
+.form-submit-btn input{
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 20px;
+  padding: 10px;
+  border:none;
+  border-radius: 3px;
+  color: white;
+  background: black;
+}
+
+.form-submit-btn input:hover{
+  background: rgba(12, 78, 119, 0.568);
+  color: rgb(255, 255, 255);
+}
+.add
+{
+  border-top: #25262a;
+}
