@@ -74,73 +74,73 @@ def addtocart(request,pk):
 
     request.session['added_to_cart'] = True
 
-    return redirect('shop') 
-# def cart(request):
-#     cart = request.session.get('cart', [])
-#     quantities = request.session.get('quantities', [])
-#     # print("Cart :",cart)
-#     # print("Quantity :",quantity)
-#     # print(len(cart))
-#     alldata = []
-#     i=0
-#     j=0
-#     total=0
-#     while i < len(cart):
-#         data = AddProduct.objects.get(id=cart[i])
-#         # print(quantities[j])
-#         total = total + (data.Product_price)*quantities[j]
-#         # print(data.id)
-#         # print(data.iten_name)
-#         # print(data.item_desc)
-#         # print(data.item_price)
-#         # print(data.item_image)
-#         alldata.append({
-#             'id':data.id,
-#             'iten_name':data.Product_name,
-#             'item_desc':data.Product_descip,
-#             'item_price':data.Product_price,
-#             'item_image':data.Product_image,
-#             'item_quantity':quantities[j]
-#         })
-#         i+=1
-#         j+=1
-#     # print("Total Amount = ",total)
-#     # print(alldata)
-#     return render(request,'cart.html',{'key':alldata,'amount':total}) 
+    return redirect('cart') 
 from django.shortcuts import render
 
 def cart(request):
-    # Example data fetching, you need to replace it with your actual data retrieval logic
-    data = [
-        {"Product_price": 10},
-        {"Product_price": None},
-        {"Product_price": 20}
-    ]
-    quantities = [1, None, 2]
+        cart = request.session.get('cart',[])
+        quantity = request.session.get('quantity',[])
+    # print("Cart :",cart)
+    # print("Quantity :",quantity)
+    # print(len(cart))
+        alldata = []
+        i=0
+        j=0
+        total=0
+        while i < len(cart):
+            data = AddProduct.objects.get(id=cart[i])
+            # print(quantity[j])
+            total = total + (data.Product_price)*1
+        # print(data.id)
+        # print(data.iten_name)
+        # print(data.item_desc)
+        # print(data.item_price)
+        # print(data.item_image)
+            alldata.append({
+                'id':data.id,
+                'Product_name':data.Product_name,
+                'Product_descip':data.Product_descip,
+                'Product_price':data.Product_price,
+                'Product_image':data.Product_image,
+            })
+            i+=1
+            j+=1
+    # print("Total Amount = ",total)
+    # print(alldata)
+        return render(request,'cart.html',{'key':alldata,'amount':total})
+    #-------------------------------------
 
-    cart_items = []
-    total = 0
+    # # Example data fetching, you need to replace it with your actual data retrieval logic
+    # data = [
+    #     {"Product_price": 10},
+    #     {"Product_price": None},
+    #     {"Product_price": 20}
+    # ]
+    # quantities = [1, None, 2]
 
-    min_length = min(len(data), len(quantities))  # Ensure we only iterate up to the length of the shortest list
+    # cart_items = []
+    # total = 0
 
-    for j in range(min_length):
-        product_price = data[j].get('Product_price')
-        qty = quantities[j]
+    # min_length = min(len(data), len(quantities))  # Ensure we only iterate up to the length of the shortest list
 
-        if product_price is None or qty is None:
-            continue  # Skip items with None values
+    # for j in range(min_length):
+    #     product_price = data[j].get('Product_price')
+    #     qty = quantities[j]
 
-        item_total = product_price * qty
-        total += item_total
-        cart_items.append({
-            'product_price': product_price,
-            'quantity': qty,
-            'item_total': item_total
-        })
+    #     if product_price is None or qty is None:
+    #         continue  # Skip items with None values
 
-    context = {
-        'cart_items': cart_items,
-        'total': total
-    }
+    #     item_total = product_price * qty
+    #     total += item_total
+    #     cart_items.append({
+    #         'product_price': product_price,
+    #         'quantity': qty,
+    #         'item_total': item_total
+    #     })
 
-    return render(request, 'cart.html', context)
+    # context = {
+    #     'cart_items': cart_items,
+    #     'total': total
+    # }
+
+    # return render(request, 'cart.html', context)
