@@ -27,153 +27,107 @@
 <body>
     {% block content %}
     
-    <div class="bg-light py-3">
+    <!-- <div class="bg-light py-3">
         <div class="container">
           <div class="row">
             <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Cart</strong></div>
           </div>
         </div>
-      </div>
-  
-      <div class="site-section">
-        <div class="container">
-          <div class="row mb-5">
-            <form class="col-md-12" method="post">
-              {% csrf_token %}
-              <div class="site-blocks-table">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th class="product-thumbnail">Image</th>
-                      <th class="product-name">Product</th>
-                      <th class="product-price">Price</th>
-                      <th class="product-quantity">Quantity</th>
-                      <th class="product-total">Total</th>
-                      <th class="product-remove">Remove</th>
-                    </tr>
-                  </thead>
-                 
-                  <tbody>
-                    {% for i in key %}
-                    <tr>
-                      <td class="product-thumbnail">
-                        <img src="{{i.Product_image.url}}" alt="Image" class="img-thumbnail">
-                      </td>
-                      <td class="product-name">
-                        <h2 class="h5 text-black">{{ i.Product_name }}</h2>
-                      </td>
-                      <td>{{ i.Product_price }}</td>
-                      <td>
-                        <div class="input-group mb-3" style="max-width: 120px;">
-                          <div class="input-group-prepend">
-                            <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                          </div>
-                          <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                          <div class="input-group-append">
-                            <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                          </div>
-                        </div>
-  
-                      </td>
-                      <td>{{ i.Product_price }}</td>
-                      <td><a href="{% url 'deletecart' pk=i.id  %}" class="btn btn-primary btn-sm">X</a></td>
-                    </tr>
-                    
-  
-                    {% endfor %}
-                  </tbody>
-                  
-                </table>
-              </div>
+      </div> -->
 
-            </form>
-          </div>
-  
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row mb-5">
-                <div class="col-md-6 mb-3 mb-md-0">
-                  <button class="btn btn-primary btn-sm btn-block">Update Cart</button>
+      <div class="container">
+        <h1> List of all Cart items</h1>
+        <div class="row" style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+            {% for i in key %}
+            <div class="col-4 ">
+                <div class="card" style="width: 20rem; height: 20rem;">
+                    <form action="" method="post">
+                        {% csrf_token%}
+                        <img src="{{i.Product_image.url}}" class="card-img-top" style="width: 20rem; height: 10rem;" alt="">
+                        <p class="card-title">Name:{{i.Product_name}}</p>
+                        <p class="card-text">Desc:{{i.Product_descip}}</p>
+                        <p class="card-text">Price:{{i.Product_price}}</p>
+                        <!-- <p class="card-text">Quantity:1</p> -->
+                         Quantity:<input type="text" value="1">
+                        <button class="btn btn-primary">Buy Now</button>
+                        <a href="{% url 'deletecart' pk=i.id  %}"><button class="btn btn-primary">Delete</button></a>
+                    </form>
                 </div>
-                <div class="col-md-6">
-                  <button class="btn btn-outline-primary btn-sm btn-block">Continue Shopping</button>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <label class="text-black h4" for="coupon">Coupon</label>
-                  <p>Enter your coupon code if you have one.</p>
-                </div>
-                <div class="col-md-8 mb-3 mb-md-0">
-                  <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
-                </div>
-                <div class="col-md-4">
-                  <button class="btn btn-primary btn-sm">Apply Coupon</button>
-                </div>
-              </div>
             </div>
-            <div class="col-md-6 pl-5">
-              <div class="row justify-content-end">
-                <div class="col-md-7">
-                  <div class="row">
-                    <div class="col-md-12 text-right border-bottom mb-5">
-                      <form action="" method="post"></form>
-                      {% csrf_token %}
-                      <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col-md-6">
-                      <span class="text-black">Subtotal</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <strong class="text-black">{{amount}}</strong>
-                    </div>
-                  </div>
-                  <div class="row mb-5">
-                    <div class="col-md-6">
-                      <span class="text-black">Total</span>
-                    </div>
-                    <div class="col-md-6 text-right">
-                      <strong class="text-black">{{amount}}</strong>
-                    </div>
-                  </div>
-                 
-                 
-                  <div class="row">
-                    
-                    <div class="col-md-12"> 
-                      <a href="{% url 'payment' %}"><button class="btn btn-primary btn-lg py-3 btn-block">Proceed To Checkout</button></a>
-                    </div>
-                
-                  </div>
-                </div>
-              </div>
+            {% endfor %}
+            <div class="card" style="width: 20rem; height: 25rem;">
+                <form action="{% url 'payment' %}" method="post">
+                    {% csrf_token%}
+                    <h1 style="margin: auto;">Total Amount :</h1>
+                    <p class="card-text"  style="margin: auto;">{{amount}}</p>
+                    <input type="number" name="amount" value="{{amount}}" hidden>
+                    <button class="btn btn-primary"  style="margin: auto;"> Pay </button>
+                </form>
+                {% if payment %}
+                    <form action="{% url 'payment-status' %}" method="post">
+                        {% csrf_token %}
+                        <script
+                                src="https://checkout.razorpay.com/v1/checkout.js"
+                                data-key="rzp_test_92mue1NgSEbYJU"
+                                data-amount="{{ payment.amount }}"
+                                data-currency="{{ payment.currency }}"
+                                data-order_id="{{ payment.id }}"
+                                data-buttontext="Pay with Razorpay"
+                                data-name="Amisha Ecom"
+                                data-description="Thanku for visiting My Site"
+                                data-image="https://example.com/your_logo.jpg"
+                                data-prefill.name="Amishaecom"
+                                data-prefill.email="Neeraj.Patel@gmail.com"
+                                data-theme.color="#F37254"
+                        ></script>
+                        <input type="hidden" custom="Hidden Element" name="hidden">
+                    </form>
+                    {% endif %}
+            
             </div>
-          </form>
-          {% if payment %}
-          <form action="{% url 'payment-status' %}" method="post">
-              {% csrf_token %}
-              <script
-                      src="https://checkout.razorpay.com/v1/checkout.js"
-                      data-key="rzp_test_pr99iascS1WRtU"
-                      data-amount="{{ payment.amount }}"
-                      data-currency="{{ payment.currency }}"
-                      data-order_id="{{ payment.id }}"
-                      data-buttontext="Pay with Razorpay"
-                      data-name="Neeraj Ecom"
-                      data-description="Thanku for visiting My Site"
-                      data-image="https://example.com/your_logo.jpg"
-                      data-prefill.name="Neeraj Kumar"
-                      data-prefill.email="Neeraj.Patel@gmail.com"
-                      data-theme.color="#F37254"
-              ></script>
-              <input type="hidden" custom="Hidden Element" name="hidden">
-          </form>
-          {% endif %}
-          </div>
         </div>
-      </div>
+    </div>
+    </div>
+    <button id="rzp-button1" style="margin-left: 1000px; margin-bottom: 100px;">Pay with Razorpay</button>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <script>
+                var options = {
+                    "key": "rzp_test_92mue1NgSEbYJU", // Enter the Key ID generated from the Dashboard
+                    "amount": "{{amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    "name": "Acme Corp",
+                    "description": "Test Transaction",
+                    "image": "https://example.com/your_logo",
+                    "order_id": "{{ id }}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+                    "prefill": {
+                        "name": "Gaurav Kumar",
+                        "email": "gaurav.kumar@example.com",
+                        "contact": "9000090000"
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                document.getElementById('rzp-button1').onclick = function(e){
+                    rzp1.open();
+                    e.preventDefault();
+                }
+                </script>
+
+
+
+
+
+
+
+                
+  
+      <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
     <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
     <script src="{% static 'js/jquery-ui.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>

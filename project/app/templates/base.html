@@ -43,7 +43,13 @@
                   <div class="col-6 col-md-4 order-3 order-md-3 text-right">
                     <div class="site-top-icons">
                       <ul>
-                        <li><a href="#"><span class="icon icon-person"></span></a></li>
+                        <li><a href="#" class="site-menu js-clone-nav d-none d-md-block" >
+                          
+                        </a><ul class="dropdown">
+                          <li><a href="#">Login</a></li>
+                          <li><a href="#">Registration</a></li>
+                        </ul>
+                      </li>
                         <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                         <li>
                           <a href="{% url 'cart' %}" class="site-cart">

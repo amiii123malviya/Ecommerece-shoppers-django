@@ -11,9 +11,22 @@ class AddProduct(models.Model):
     class Meta:
         db_table="AddProduct"
 class Details(models.Model):
-        amount = models.CharField(max_length=100 , blank=True)
+        amount = models.IntegerField()
         order_id = models.CharField(max_length=1000 )
         razorpay_payment_id = models.CharField(max_length=1000 ,blank=True)
         paid = models.BooleanField(default=False)
         def __str__(self):
             return self.name
+class Register(models.Model):
+    Name=models.CharField(max_length=300)
+    Email=models.EmailField()
+    Contact=models.IntegerField()
+    City=models.CharField(max_length=250)
+    Password=models.CharField(max_length=300)
+
+
+    class Meta:
+        db_table='Register'
+        verbose_name_plural='Register'
+    def __str__(self):
+        return self.Name
