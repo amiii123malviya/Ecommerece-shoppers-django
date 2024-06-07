@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     
+    <div class="row">
+        {% for i in data %}
+        <div class="col-sm-4 ">
+            <div class="card" style="width: 20rem; height: 20rem;">
+                <form action="{% url 'addtocard' pk=i.id %}" method="post">
+                    {% csrf_token%}
+                    <img src="{{i.item_image.url}}" class="card-img-top" style="width: 18rem; height: 10rem;" alt="">
+                    <p class="card-title">{{i.item_name}}</p>
+                    <p class="card-text">{{i.item_desc}}</p>
+                    <p class="card-text">{{i.item_price}}</p>
+                    Quantity:<input type="number" name="quantity" value="1">
+                    <button class="btn btn-primary">Add to card</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

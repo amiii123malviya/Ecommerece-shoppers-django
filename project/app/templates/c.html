@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h1> List of all Caet items</h1>
+        <div class="row" style="display: flex; justify-content: space-around; flex-wrap: wrap;">
+            {% for i in key %}
+            <div class="col-4 ">
+                <div class="card" style="width: 20rem; height: 20rem;">
+                    <form action="" method="post">
+                        {% csrf_token%}
+                        <img src="{{i.Product_image.url}}" class="card-img-top" style="width: 20rem; height: 10rem;" alt="">
+                        <p class="card-title">Name:{{Product_name}}</p>
+                        <p class="card-text">Desc:{{i.Product_descip}}</p>
+                        <p class="card-text">Price:{{i.Product_price}}</p>
+                        <p class="card-text">Quantity:{{i.Product_quantity}}</p>
+                        <button class="btn btn-primary">Buy Now</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="card" style="width: 20rem; height: 20rem;">
+                <form action="" method="post">
+                    {% csrf_token%}
+                    <h1>Total Amount :</h1>
+                    <p class="card-text">{{amount}}</p>
+                    <input type="number" name="amount" value="{{amount}}" hidden>
+                    <button class="btn btn-primary"> Pay </button>
+                </form>
+    
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

@@ -126,3 +126,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Use database-backed sessions
+SESSION_COOKIE_NAME = 'sessionid'  # Name of the cookie to use for sessions
+SESSION_COOKIE_AGE = 1209600  # Age of session cookies, in seconds (default: 2 weeks)

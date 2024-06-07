@@ -75,10 +75,11 @@
   {% for i in data %}
  <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
    <div class="block-4 text-center border">
+    <div>
      <form action="" method="post">
-       {% csrf_token%}
+      {% csrf_token %}
      <figure class="block-4-image">
-       <a href="{% url 'singlecart' pk=i.id %}"><img src="{{i.Product_image.url}}" alt="Image placeholder" class="img-fluid">
+       <a href="{}"><img src="{{i.Product_image.url}}" alt="Image placeholder" class="img-fluid">
        </a>
      
      </figure>
@@ -86,8 +87,17 @@
        <h3><a href="shop-single.html">{{i.Product_name}}</a></h3>
        <p class="mb-0">{{i.Product_descip}}</p>
        <p class="text-primary font-weight-bold">{{i.Product_price}}</p>
+       <div class="input-group input-group-sm mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Quantity</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="quantity" value="1">
+      </div>
+      <a href="{% url 'addtocart' pk=i.id %}">
+       <button type="button" class="btn btn-secondary">Add to  cart</button>
+      </a>
+
      </div>
    </form>
+  </div>
    </div>
  </div>
  {% endfor %}

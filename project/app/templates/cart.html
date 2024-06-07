@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,6 +39,7 @@
         <div class="container">
           <div class="row mb-5">
             <form class="col-md-12" method="post">
+              {% csrf_token %}
               <div class="site-blocks-table">
                 <table class="table table-bordered">
                   <thead>
@@ -50,57 +52,40 @@
                       <th class="product-remove">Remove</th>
                     </tr>
                   </thead>
+                 
                   <tbody>
+                    {% for i in cart_items %}
                     <tr>
                       <td class="product-thumbnail">
                         <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
                       </td>
                       <td class="product-name">
-                        <h2 class="h5 text-black">Top Up T-Shirt</h2>
+                        <h2 class="h5 text-black">{{ i.Product_name }}</h2>
                       </td>
-                      <td>$49.00</td>
+                      <td>{{ i.Product_price }}</td>
                       <td>
                         <div class="input-group mb-3" style="max-width: 120px;">
                           <div class="input-group-prepend">
                             <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                           </div>
-                          <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                          <input type="text" class="form-control text-center" value="{{ i.quantity }}" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
                           <div class="input-group-append">
                             <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                           </div>
                         </div>
   
                       </td>
-                      <td>$49.00</td>
+                      <td>{{total}}</td>
                       <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
                     </tr>
+                    
   
-                    <tr>
-                      <td class="product-thumbnail">
-                        <img src="images/cloth_2.jpg" alt="Image" class="img-fluid">
-                      </td>
-                      <td class="product-name">
-                        <h2 class="h5 text-black">Polo Shirt</h2>
-                      </td>
-                      <td>$49.00</td>
-                      <td>
-                        <div class="input-group mb-3" style="max-width: 120px;">
-                          <div class="input-group-prepend">
-                            <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                          </div>
-                          <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                          <div class="input-group-append">
-                            <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                          </div>
-                        </div>
-  
-                      </td>
-                      <td>$49.00</td>
-                      <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
-                    </tr>
+                    {% endfor %}
                   </tbody>
+                  
                 </table>
               </div>
+
             </form>
           </div>
   
@@ -140,7 +125,7 @@
                       <span class="text-black">Subtotal</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <strong class="text-black">$230.00</strong>
+                      <strong class="text-black">{{total}}</strong>
                     </div>
                   </div>
                   <div class="row mb-5">
@@ -148,10 +133,11 @@
                       <span class="text-black">Total</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <strong class="text-black">$230.00</strong>
+                      <strong class="text-black">{{total}}</strong>
                     </div>
                   </div>
-  
+                 
+              
                   <div class="row">
                     <div class="col-md-12">
                       <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
