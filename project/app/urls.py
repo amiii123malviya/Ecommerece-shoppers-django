@@ -14,6 +14,12 @@ urlpatterns=[
     path('addedproduct/',addedproduct,name='addedproduct'),
     # path('singlecart/<int:pk>',singlecart,name='singlecart'),
     path('addtocart/<int:pk>',addtocart,name='addtocart'),
+    path("deletecart/<int:pk>",deletecart,name='deletecart'),
+    path("checkout/",checkout,name='checkout'),
+    path("payment/",payment,name='payment'),
+    path('payment-status', payment_status, name='payment-status'),
+
+
 
 
 ]

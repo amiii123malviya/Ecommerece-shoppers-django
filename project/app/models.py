@@ -10,3 +10,10 @@ class AddProduct(models.Model):
 
     class Meta:
         db_table="AddProduct"
+class Details(models.Model):
+        amount = models.CharField(max_length=100 , blank=True)
+        order_id = models.CharField(max_length=1000 )
+        razorpay_payment_id = models.CharField(max_length=1000 ,blank=True)
+        paid = models.BooleanField(default=False)
+        def __str__(self):
+            return self.name

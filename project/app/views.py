@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from .models import AddProduct
+from .models import AddProduct,Details
 from .forms import AddProductForm
 from django.shortcuts import render,redirect
 from django.shortcuts import render, get_object_or_404
 from project.settings import MEDIA_ROOT,MEDIA_URL
+import razorpay
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 def home(request):
     return render(request,'home.html')
@@ -46,10 +48,7 @@ def addedproduct(request):
              return render(request,'addedproduct.html',{'form':form,'data':data})
         else:
              return render(request,'addedproduct.html',{'form':form})
-# def singlecart(request,pk):
-#         if request.method == 'POST':
-#             pdata=get_object_or_404(AddProduct,pk=pk)
-#         return render(request,'singlecart.html',{'pdata':pdata})
+
 def addtocart(request,pk):
     product = get_object_or_404(AddProduct, id=pk)
     cart = request.session.get('cart', [])
@@ -74,7 +73,7 @@ def addtocart(request,pk):
 
     request.session['added_to_cart'] = True
 
-    return redirect('cart') 
+    return redirect('addedproduct') 
 from django.shortcuts import render
 
 def cart(request):
@@ -110,37 +109,137 @@ def cart(request):
         return render(request,'cart.html',{'key':alldata,'amount':total})
     #-------------------------------------
 
-    # # Example data fetching, you need to replace it with your actual data retrieval logic
-    # data = [
-    #     {"Product_price": 10},
-    #     {"Product_price": None},
-    #     {"Product_price": 20}
-    # ]
-    # quantities = [1, None, 2]
 
-    # cart_items = []
-    # total = 0
 
-    # min_length = min(len(data), len(quantities))  # Ensure we only iterate up to the length of the shortest list
 
-    # for j in range(min_length):
-    #     product_price = data[j].get('Product_price')
-    #     qty = quantities[j]
+def deletecart(request,pk):
+    cart = request.session.get('cart',[])
+    quantity = request.session.get('quantity',[])
+    print("Cart :",cart)
+    print("Quantity :",quantity)
+    print("pk=",pk)
+    x = cart.index(pk)
+    # print("Cart index no:",x)
+    # y = quantity[x]
+    # print("Quantity of that card index:",y)
+    cart1=[]
+    y = len(cart)   
+    i=0
+    while i<y:
+        if i==x:
+            pass
+        else:
+            cart1.append(cart[i])
+        i+=1
+    print(cart1)
+    request.session['cart']=cart1
+    quantity1=[]
+    z = len(quantity)
+    j=0
+    while j<z:
+        if j==x:
+            pass
+        else:
+            quantity1.append(quantity[j])
+        j+=1
+    print(quantity1)
+    request.session['quantity']=quantity1
+    # ----------------------------------------------------
+    cart = request.session.get('cart',[])
+    quantity = request.session.get('quantity',[])
+    print("Cart :",cart)
+    print("Quantity :",quantity)
+    # print(len(cart))
+    alldata = []
+    i=0
+    j=0
+    total=0
+    
+    while i < len(cart):
+        data = AddProduct.objects.get(id=cart[i])
+        # print(quantity[j])
+        total = total + (data.Product_price)*1
+        # print(data.id)
+        # print(data.iten_name)
+        # print(data.item_desc)
+        # print(data.item_price)
+        # print(data.item_image)
+        alldata.append({
+                'id':data.id,
+                'Product_name':data.Product_name,
+                'Product_descip':data.Product_descip,
+                'Product_price':data.Product_price,
+                'Product_image':data.Product_image,
+            })
+        ami=len(alldata)
+        i+=1
+        j+=1
+    # print("Total Amount = ",total)
+    print(alldata)
+    return render(request,'cart.html',{'key':alldata,'amount':total,'ami':ami})
+def checkout(request):
+    return render(request,'checkout.html')
 
-    #     if product_price is None or qty is None:
-    #         continue  # Skip items with None values
+def payment(request):
+    global payment
+    if request.method=="POST":
+        # amount in paisa
+        amount = int(request.POST.get('total')) * 100
+        
+        client = razorpay.Client(auth =("rzp_test_92mue1NgSEbYJU" , "FKY3qexqw91YDDJCBVCFWJXA"))
+        # create order
+        
+        data = { "amount": amount, "currency": "INR", "receipt": "order_rcptid_11" }
+        payment = client.order.create(data=data)
+        product = Details.objects.create( amount =amount , order_id = payment['id'])
+        cart = request.session.get('cart',[])
+        quantity = request.session.get('quantity',[])
+        # amount = request.POST.get('amount') * 100
 
-    #     item_total = product_price * qty
-    #     total += item_total
-    #     cart_items.append({
-    #         'product_price': product_price,
-    #         'quantity': qty,
-    #         'item_total': item_total
-    #     })
+        alldata = []
+        i=0
+        j=0
+        total=0
+        while i < len(cart):
+            data = AddProduct.objects.get(id=cart[i])
+            total = total + (data.Product_price)*1
+            alldata.append({
+                'id':data.id,
+                'Product_name':data.Product_name,
+                'Product_descip':data.Product_descip,
+                'Product_price':data.Product_price,
+                'Product_image':data.Product_image,
+            })
+            i+=1
+            j+=1
+        # print(payment)
+        return render(request,'shop.html',{'key':alldata,'amount':total,'payment':payment})
+@csrf_exempt
+def payment_status(request):
+       if request.method=="POST": 
+        response = request.POST
+        print(response) #  
+        print(payment)
 
-    # context = {
-    #     'cart_items': cart_items,
-    #     'total': total
-    # }
+        razorpay_data = {
+            'razorpay_order_id': response['razorpay_order_id'],
+            'razorpay_payment_id': response['razorpay_payment_id'],
+            'razorpay_signature': response['razorpay_signature']
+        }
 
-    # return render(request, 'cart.html', context)
+        # client instance
+        client = razorpay.Client(auth =("rzp_test_92mue1NgSEbYJU" , "FKY3qexqw91YDDJCBVCFWJXA"))
+
+        try:
+            status = client.utility.verify_payment_signature(razorpay_data)
+            product = Details.objects.get(order_id=response['razorpay_order_id'])
+            product.razorpay_payment_id = response ['razorpay_payment_id']
+            product.paid = True
+            product.save()
+            
+            # return redirect('home')
+            return render(request, 'home.html', {'status': True})
+        except:
+            # return redirect('home')
+
+            return render(request, 'home.html', {'status': False})

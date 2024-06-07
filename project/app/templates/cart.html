@@ -76,7 +76,7 @@
   
                       </td>
                       <td>{{ i.Product_price }}</td>
-                      <td><a href="#" class="btn btn-primary btn-sm">X</a></td>
+                      <td><a href="{% url 'deletecart' pk=i.id  %}" class="btn btn-primary btn-sm">X</a></td>
                     </tr>
                     
   
@@ -117,6 +117,8 @@
                 <div class="col-md-7">
                   <div class="row">
                     <div class="col-md-12 text-right border-bottom mb-5">
+                      <form action="" method="post"></form>
+                      {% csrf_token %}
                       <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
                     </div>
                   </div>
@@ -125,7 +127,7 @@
                       <span class="text-black">Subtotal</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <strong class="text-black">{{total}}</strong>
+                      <strong class="text-black">{{amount}}</strong>
                     </div>
                   </div>
                   <div class="row mb-5">
@@ -133,19 +135,42 @@
                       <span class="text-black">Total</span>
                     </div>
                     <div class="col-md-6 text-right">
-                      <strong class="text-black">{{total}}</strong>
+                      <strong class="text-black">{{amount}}</strong>
                     </div>
                   </div>
                  
-              
+                 
                   <div class="row">
-                    <div class="col-md-12">
-                      <button class="btn btn-primary btn-lg py-3 btn-block" onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                    
+                    <div class="col-md-12"> 
+                      <a href="{% url 'payment' %}"><button class="btn btn-primary btn-lg py-3 btn-block">Proceed To Checkout</button></a>
                     </div>
+                
                   </div>
                 </div>
               </div>
             </div>
+          </form>
+          {% if payment %}
+          <form action="{% url 'payment-status' %}" method="post">
+              {% csrf_token %}
+              <script
+                      src="https://checkout.razorpay.com/v1/checkout.js"
+                      data-key="rzp_test_pr99iascS1WRtU"
+                      data-amount="{{ payment.amount }}"
+                      data-currency="{{ payment.currency }}"
+                      data-order_id="{{ payment.id }}"
+                      data-buttontext="Pay with Razorpay"
+                      data-name="Neeraj Ecom"
+                      data-description="Thanku for visiting My Site"
+                      data-image="https://example.com/your_logo.jpg"
+                      data-prefill.name="Neeraj Kumar"
+                      data-prefill.email="Neeraj.Patel@gmail.com"
+                      data-theme.color="#F37254"
+              ></script>
+              <input type="hidden" custom="Hidden Element" name="hidden">
+          </form>
+          {% endif %}
           </div>
         </div>
       </div>
