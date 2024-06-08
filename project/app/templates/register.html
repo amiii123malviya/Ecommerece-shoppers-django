@@ -26,20 +26,61 @@
 <body >
     {% block content %}
     <div class="container2">
-        <h1 class="form-title">Register</h1>
-        <form action="{% url 'registerdata' %}" method="post" enctype="multipart/form-data">
+      <h1 class="form-title">Registration</h1>
+      <form action="{% url 'registerdata' %}" method="post">
+        {% csrf_token %}
 
-          <div class="main-user-info">
-            {% csrf_token %}
-            {{form.as_p }}
-            <div class="form-submit-btn">
-                <a href="{% url 'home' %}"><input type="submit" value="Register"></a>
-                
-              </div>
+        <div class="main-user-info">
+          <div class="user-input-box">
+            <label for="fullName"></label>
+            Full Name:<input type="text"
+                    id="fullName"
+                    name="name"
+                    placeholder="Enter Full Name"/>
           </div>
-        
-          </form>
+          </div>
+          <div class="user-input-box">
+            <label for="email"></label>
+            Email:<input type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter Email"/>
+          </div>
+          <div class="user-input-box">
+            <label for="contact"></label>
+            Contact:<input type="contact"
+                    id="contact"
+                    name="contact"
+                    placeholder="Enter Contact"/>
+          </div>
+          <div class="user-input-box">
+            <label for="city"></label>
+            City:<input type="city"
+                    id="city"
+                    name="city"
+                    placeholder="Enter City"/>
+          </div>
+          <div class="user-input-box">
+            <label for="password"></label>
+            Password:<input type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter Password"/>
+          </div>
+          <div class="user-input-box">
+            <label for="confirmPassword"></label>
+            Confirm Password:<input type="password"
+                    id="confirmPassword"
+                    name="Cpassword"
+                    placeholder="Confirm Password"/>
+          </div>
+          <div class="form-submit-btn">
+              <input type="submit" value="Register">
+            </div>
         </div>
+        
+      </form>
+    </div>
 
         <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
         <script src="{% static 'js/jquery-ui.js' %}"></script>

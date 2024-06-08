@@ -319,15 +319,54 @@ def register(request):
     return render(request,'register.html')
 
 def registerdata(request):
-    if request.method=="POST":
-        form = RegisterForm(request.POST,request.FILES)
-        if form.is_valid():
-            form.save()
-        data = Register.objects.all()
-        return render(request,'home.html',{'form':form,'data':data})
-    form = RegisterForm()
-    data = Register.objects.all()
+    print(request.method)
+    print(request.POST)
+    name=request.POST.get('name')
+    email=request.POST.get('email')
+    contact=request.POST.get('contact')
+    city=request.POST.get('city')
+    password=request.POST.get('password')
+    Cpassword=request.POST.get('Cpassword')
+    data=Register.objects.filter(Email=email)
+    print(data)
     if data:
-        return render(request,'home.html',{'form':form,'data':data})
+        msg='Already Email Exist'
+        return render(request,'register.html',{'key':msg})
     else:
-        return render(request,'home.html',{'form':form})
+        if password==Cpassword:
+            Register.objects.create(Name=name,
+                               Email=email,
+                               Contact=contact,
+                               City=city,
+                               Password=password)
+            msg="Register successfully"
+            return render(request,'home.html',{'key':msg})
+        
+        else:
+            msg="password and confirm password not matched"
+            return render(request,'register.html',{'key':msg})
+        
+def login(request):
+    return render(request,'login.html')
+def logindata(request):
+    # print(request.method)
+    print(request.POST)
+    email=request.POST.get('email')
+    pswrd=request.POST.get('password')
+    user=Register.objects.filter(Email=email)
+    if user:
+        data=Register.objects.get(Email=email)
+        pss=data.Password
+        print(pss)
+        print(pswrd)
+        if pss == pswrd:
+            print(pswrd)
+            context={
+               'nm':data.Name,
+               'em':data.Email,
+               'ps':data.Password
+            } 
+            return render(request,'home.html',{'context':context})
+        else:
+            msg="Email and Password not matched"
+            return render(request,'login.html',{'key':msg})

@@ -43,13 +43,18 @@
                   <div class="col-6 col-md-4 order-3 order-md-3 text-right">
                     <div class="site-top-icons">
                       <ul>
+                        {%if context.nm%}
                         <li><a href="#" class="site-menu js-clone-nav d-none d-md-block" >
-                          
+                          <li><a href="#"><span>welcome  {{context.nm}} </span></a></li>
+                          <li><a href="{% url 'home' %}">Logout</a></li>
+
+                          {%else%}
                         </a><ul class="dropdown">
-                          <li><a href="#">Login</a></li>
+                          <li><a href="{% url 'login' %}">Login</a></li>
                           <li><a href="{% url 'register' %}">Register</a></li>
                         </ul>
                       </li>
+                      {%endif%}
                         <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                         <li>
                           <a href="{% url 'cart' %}" class="site-cart">
@@ -58,6 +63,7 @@
                           </a>
                         </li> 
                         <li class="d-inline-block d-md-none ml-md-0"><a href="{% url 'home' %}" class="site-menu-toggle js-menu-toggle"><span class="icon-menu"></span></a></li>
+                        
                       </ul>
                     </div> 
                   </div>
