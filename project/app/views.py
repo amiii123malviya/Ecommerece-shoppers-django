@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import AddProduct,Details
-from .forms import AddProductForm
+from .models import AddProduct,Details,Register
+from .forms import AddProductForm,RegisterForm
 from django.shortcuts import render,redirect
 from django.shortcuts import render, get_object_or_404
 from project.settings import MEDIA_ROOT,MEDIA_URL
@@ -112,71 +112,71 @@ def cart(request):
 
 
 
-# def deletecart(request,pk):
-#     cart = request.session.get('cart',[])
-#     quantity = request.session.get('quantity',[])
-#     print("Cart :",cart)
-#     print("Quantity :",quantity)
-#     print("pk=",pk)
-#     x = cart.index(pk)
-#     # print("Cart index no:",x)
-#     # y = quantity[x]
-#     # print("Quantity of that card index:",y)
-#     cart1=[]
-#     y = len(cart)   
-#     i=0
-#     while i<y:
-#         if i==x:
-#             pass
-#         else:
-#             cart1.append(cart[i])
-#         i+=1
-#     print(cart1)
-#     request.session['cart']=cart1
-#     quantity1=[]
-#     z = len(quantity)
-#     j=0
-#     while j<z:
-#         if j==x:
-#             pass
-#         else:
-#             quantity1.append(quantity[j])
-#         j+=1
-#     print(quantity1)
-#     request.session['quantity']=quantity1
-#     # ----------------------------------------------------
-#     cart = request.session.get('cart',[])
-#     quantity = request.session.get('quantity',[])
-#     print("Cart :",cart)
-#     print("Quantity :",quantity)
-#     # print(len(cart))
-#     alldata = []
-#     i=0
-#     j=0
-#     total=0
+def deletecart(request,pk):
+    cart = request.session.get('cart',[])
+    quantity = request.session.get('quantity',[])
+    print("Cart :",cart)
+    print("Quantity :",quantity)
+    print("pk=",pk)
+    x = cart.index(pk)
+    # print("Cart index no:",x)
+    # y = quantity[x]
+    # print("Quantity of that card index:",y)
+    cart1=[]
+    y = len(cart)   
+    i=0
+    while i<y:
+        if i==x:
+            pass
+        else:
+            cart1.append(cart[i])
+        i+=1
+    print(cart1)
+    request.session['cart']=cart1
+    quantity1=[]
+    z = len(quantity)
+    j=0
+    while j<z:
+        if j==x:
+            pass
+        else:
+            quantity1.append(quantity[j])
+        j+=1
+    print(quantity1)
+    request.session['quantity']=quantity1
+    # ----------------------------------------------------
+    cart = request.session.get('cart',[])
+    quantity = request.session.get('quantity',[])
+    print("Cart :",cart)
+    print("Quantity :",quantity)
+    # print(len(cart))
+    alldata = []
+    i=0
+    j=0
+    total=0
     
-#     while i < len(cart):
-#         data = AddProduct.objects.get(id=cart[i])
-#         # print(quantity[j])
-#         total = total + (data.Product_price)*1
-#         # print(data.id)
-#         # print(data.iten_name)
-#         # print(data.item_desc)
-#         # print(data.item_price)
-#         # print(data.item_image)
-#         alldata.append({
-#                 'id':data.id,
-#                 'Product_name':data.Product_name,
-#                 'Product_descip':data.Product_descip,
-#                 'Product_price':data.Product_price,
-#                 'Product_image':data.Product_image,
-#             })
-#         ami=len(alldata)
-#         i+=1
-#         j+=1
-#     # print("Total Amount = ",total)
-#     print(alldata)
-#     return render(request,'cart.html',{'key':alldata,'amount':total,'ami':ami})
+    while i < len(cart):
+        data = AddProduct.objects.get(id=cart[i])
+        # print(quantity[j])
+        total = total + (data.Product_price)*1
+        # print(data.id)
+        # print(data.iten_name)
+        # print(data.item_desc)
+        # print(data.item_price)
+        # print(data.item_image)
+        alldata.append({
+                'id':data.id,
+                'Product_name':data.Product_name,
+                'Product_descip':data.Product_descip,
+                'Product_price':data.Product_price,
+                'Product_image':data.Product_image,
+            })
+        ami=len(alldata)
+        i+=1
+        j+=1
+    # print("Total Amount = ",total)
+    print(alldata)
+    return render(request,'cart.html',{'key':alldata,'amount':total,'ami':ami})
 def checkout(request):
     return render(request,'checkout.html')
 
@@ -252,68 +252,82 @@ def payment_status(request):
             # return redirect('home')
 
             return render(request, 'home.html', {'status': False})
-def deletecart(request,pk):
-    cart = request.session.get('cart',[])
-    quantity = request.session.get('quantity',[])
-    print("Cart :",cart)
-    print("Quantity :",quantity)
-    print("pk=",pk)
-    x = cart.index(pk)
-    # print("Cart index no:",x)
-    # y = quantity[x]
-    # print("Quantity of that card index:",y)
-    cart1=[]
-    y = len(cart)   
-    i=0
-    while i<y:
-        if i==x:
-            pass
-        else:
-            cart1.append(cart[i])
-        i+=1
-    print(cart1)
-    request.session['cart']=cart1
-    quantity1=[]
-    z = len(quantity)
-    j=0
-    while j<z:
-        if j==x:
-            pass
-        else:
-            quantity1.append(quantity[j])
-        j+=1
-    print(quantity1)
-    request.session['quantity']=quantity1
-    # ----------------------------------------------------
-    cart = request.session.get('cart',[])
-    quantity = request.session.get('quantity',[])
-    print("Cart :",cart)
-    print("Quantity :",quantity)
-    # print(len(cart))
-    alldata = []
-    i=0
-    j=0
-    total=0
-    while i < len(cart):
-        data = AddProduct.objects.get(id=cart[i])
-        print(quantity[j])
-        total = total + (data.item_price)*quantity[j]
-        # print(data.id)
-        # print(data.iten_name)
-        # print(data.item_desc)
-        # print(data.item_price)
-        # print(data.item_image)
-        alldata.append({
-                'id':data.id,
-                'Product_name':data.Product_name,
-                'Product_descip':data.Product_descip,
-                'Product_price':data.Product_price,
-                'Product_image':data.Product_image,
-            })
-        i+=1
-        j+=1
-    # print("Total Amount = ",total)
-    print(alldata)
-    return render(request,'app/cart.html',{'key':alldata,'amount':total})
+# def deletecart(request,pk):
+#     cart = request.session.get('cart',[])
+#     quantity = request.session.get('quantity',[])
+#     print("Cart :",cart)
+#     print("Quantity :",quantity)
+#     print("pk=",pk)
+#     x = cart.index(pk)
+#     # print("Cart index no:",x)
+#     # y = quantity[x]
+#     # print("Quantity of that card index:",y)
+#     cart1=[]
+#     y = len(cart)   
+#     i=0
+#     while i<y:
+#         if i==x:
+#             pass
+#         else:
+#             cart1.append(cart[i])
+#         i+=1
+#     print(cart1)
+#     request.session['cart']=cart1
+#     quantity1=[]
+#     z = len(quantity)
+#     j=0
+#     while j<z:
+#         if j==x:
+#             pass
+#         else:
+#             quantity1.append(quantity[j])
+#         j+=1
+#     print(quantity1)
+#     request.session['quantity']=quantity1
+#     # ----------------------------------------------------
+#     cart = request.session.get('cart',[])
+#     quantity = request.session.get('quantity',[])
+#     print("Cart :",cart)
+#     print("Quantity :",quantity)
+#     # print(len(cart))
+#     alldata = []
+#     i=0
+#     j=0
+#     total=0
+#     while i < len(cart):
+#         data = AddProduct.objects.get(id=cart[i])
+#         print(quantity[j])
+#         total = total + (data.item_price)*quantity[j]
+#         # print(data.id)
+#         # print(data.iten_name)
+#         # print(data.item_desc)
+#         # print(data.item_price)
+#         # print(data.item_image)
+#         alldata.append({
+#                 'id':data.id,
+#                 'Product_name':data.Product_name,
+#                 'Product_descip':data.Product_descip,
+#                 'Product_price':data.Product_price,
+#                 'Product_image':data.Product_image,
+#             })
+#         i+=1
+#         j+=1
+#     # print("Total Amount = ",total)
+#     print(alldata)
+#     return render(request,'app/cart.html',{'key':alldata,'amount':total})
 def register(request):
     return render(request,'register.html')
+
+def registerdata(request):
+    if request.method=="POST":
+        form = RegisterForm(request.POST,request.FILES)
+        if form.is_valid():
+            form.save()
+        data = Register.objects.all()
+        return render(request,'home.html',{'form':form,'data':data})
+    form = RegisterForm()
+    data = Register.objects.all()
+    if data:
+        return render(request,'home.html',{'form':form,'data':data})
+    else:
+        return render(request,'home.html',{'form':form})

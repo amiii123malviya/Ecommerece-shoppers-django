@@ -19,6 +19,8 @@ urlpatterns=[
     path("payment/",payment,name='payment'),
     path('payment-status', payment_status, name='payment-status'),
     path("register/",register,name='register'),
+    path('registerdata/',registerdata,name='registerdata'),
+
 
 
 
